@@ -7,7 +7,7 @@ Indicadores ambientales del término municipal de Marbella (código INE 29069) d
 fuentes de observación de la Tierra y series estadísticas oficiales, publicados como sitio
 estático.
 
-**Sitio publicado: <https://josehino.github.io/observatorio-sostenibilidad-marbella/>**
+**Sitio publicado: <https://ammaconsulting.github.io/observatorio-sostenibilidad-marbella/>**
 
 ## El hallazgo
 
