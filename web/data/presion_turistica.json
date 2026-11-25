@@ -5,39 +5,39 @@
  "municipio": "Marbella",
  "codigo_ine": "29069",
  "periodicidad": "mensual",
- "ultimo_periodo": "2026-07",
+ "ultimo_periodo": "2026-10",
  "n_periodos": 119,
  "cruces": [
   {
    "variable": "ndvi",
    "titulo": "NDVI medio municipal",
-   "n_meses_comunes": 101,
+   "n_meses_comunes": 104,
    "desde": "2018-01",
-   "hasta": "2026-07",
+   "hasta": "2026-10",
    "correlacion_pearson": -0.705
   },
   {
    "variable": "lst",
    "titulo": "Temperatura superficial terrestre",
-   "n_meses_comunes": 89,
+   "n_meses_comunes": 92,
    "desde": "2018-01",
-   "hasta": "2026-07",
-   "correlacion_pearson": 0.842
+   "hasta": "2026-10",
+   "correlacion_pearson": 0.845
   }
  ],
  "perfil_estacional_normalizado": {
   "pernoctaciones": [
    0.0395,
    0.0802,
-   0.2472,
-   0.4591,
-   0.6696,
-   0.7548,
-   0.8706,
+   0.2471,
+   0.459,
+   0.6694,
+   0.7546,
+   0.8704,
    1.0,
-   0.6761,
-   0.5648,
-   0.0927,
+   0.683,
+   0.5658,
+   0.0926,
    0.0
   ],
   "ndvi": [
@@ -65,7 +65,7 @@
    1.0,
    0.7804,
    0.5042,
-   0.2322,
+   0.2206,
    0.0406
   ]
  },
@@ -78,9 +78,9 @@
    256879.125,
    279798.25,
    310962.2222,
-   345763.0,
-   258630.0,
-   228688.625,
+   345828.3333,
+   260533.0,
+   229001.6667,
    101687.625,
    76763.25
   ],
@@ -109,7 +109,7 @@
    38.4444,
    33.7471,
    27.8411,
-   22.0225,
+   21.775,
    17.9263
   ]
  },
@@ -1148,27 +1148,33 @@
   },
   {
    "periodo": "2026-08",
-   "pernoctaciones": null,
-   "viajeros": null,
-   "plazas": null,
+   "pernoctaciones": 346351.0,
+   "viajeros": 83817.0,
+   "plazas": 14784.0,
    "ndvi": 0.4371,
-   "lst": 37.18
+   "lst": 37.18,
+   "pernoctaciones_por_plaza_dia": 0.771,
+   "provisional": true
   },
   {
    "periodo": "2026-09",
-   "pernoctaciones": null,
-   "viajeros": null,
-   "plazas": null,
+   "pernoctaciones": 275757.0,
+   "viajeros": 80024.0,
+   "plazas": 15353.0,
    "ndvi": 0.4427,
-   "lst": 34.68
+   "lst": 34.68,
+   "pernoctaciones_por_plaza_dia": 0.591,
+   "provisional": true
   },
   {
    "periodo": "2026-10",
-   "pernoctaciones": null,
-   "viajeros": null,
-   "plazas": null,
+   "pernoctaciones": 231506.0,
+   "viajeros": 64670.0,
+   "plazas": 13954.0,
    "ndvi": 0.4956,
-   "lst": 26.81
+   "lst": 26.81,
+   "pernoctaciones_por_plaza_dia": 0.546,
+   "provisional": true
   },
   {
    "periodo": "2026-11",
@@ -1176,7 +1182,7 @@
    "viajeros": null,
    "plazas": null,
    "ndvi": null,
-   "lst": 26.07
+   "lst": 24.09
   }
  ]
 }

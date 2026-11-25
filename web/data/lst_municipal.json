@@ -1228,14 +1228,14 @@
   },
   {
    "periodo": "2026-11",
-   "valor": 26.07,
-   "mediana": 25.87,
-   "p10": 24.03,
-   "p90": 28.42,
-   "amplitud_p10_p90": 4.39,
-   "n_escenas": 1,
-   "cobertura_pct": 98.6,
-   "escenas_descartadas": 0
+   "valor": 24.09,
+   "mediana": 23.98,
+   "p10": 22.16,
+   "p90": 26.18,
+   "amplitud_p10_p90": 4.02,
+   "n_escenas": 2,
+   "cobertura_pct": 94.0,
+   "escenas_descartadas": 1
   }
  ]
 }

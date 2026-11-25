@@ -11,8 +11,8 @@
   },
   "clorofila_litoral": {
     "hash_config": "64664145ebfbe092",
-    "n_periodos": 116,
-    "ultima_fecha_dato": "2026-08"
+    "n_periodos": 119,
+    "ultima_fecha_dato": "2026-11"
   },
   "fenologia_vegetacion": {
     "n_periodos": 7,
@@ -64,7 +64,7 @@
   "presion_turistica": {
     "hash_config": "01b2769e515ec285",
     "n_periodos": 119,
-    "ultima_fecha_dato": "2026-07"
+    "ultima_fecha_dato": "2026-10"
   },
   "radiacion_solar": {
     "hash_config": "95b9baa55964f983",

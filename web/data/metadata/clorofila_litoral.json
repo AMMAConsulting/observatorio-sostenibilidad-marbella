@@ -9,8 +9,8 @@
   "metodo": "Se emplea CHL_NN y no CHL_OC4ME: el algoritmo OC4Me está concebido para aguas oceánicas de tipo 1, mientras que la red neuronal es la recomendada para aguas costeras de tipo 2. La agregación temporal y zonal se ejecuta en el servidor de openEO; no se descarga ningún ráster. La banda se distribuye en log10(mg/m³), de modo que el promedio se calcula en escala logarítmica y se deshace después: el resultado es la media geométrica, que es el estadístico convencional para la clorofila por tratarse de una variable log-normal.",
   "enmascaramiento": "El producto de nivel 2 incorpora sus propios indicadores de calidad.",
   "serie_desde": "2017-01",
-  "serie_hasta": "2026-08",
-  "n_periodos": 116,
+  "serie_hasta": "2026-11",
+  "n_periodos": 119,
   "n_huecos": 3,
   "limitaciones": [
     "El valor publicado es una media geométrica, no aritmética, por la naturaleza log-normal de la variable. No es comparable sin más con medias aritméticas de otras fuentes.",
