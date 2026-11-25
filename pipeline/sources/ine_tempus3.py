@@ -94,10 +94,23 @@ def obtener(nombre: str, forzar: bool = False) -> tuple[list[dict], dict]:
     destino.mkdir(parents=True, exist_ok=True)
     cache = destino / f"{codigo}.json"
 
+    # La cache caduca a los 5 dias: data/raw/ine persiste entre pasadas en la cache de
+    # Actions y, sin caducidad, la serie se quedaba congelada en el mes de la primera
+    # descarga (la presion turistica seguia en 2026-07 con el INE ya en 2026-10).
+    payload = None
     if cache.exists() and not forzar:
         payload = json.loads(cache.read_text(encoding="utf-8"))
-    else:
+        if time.time() - payload.get("_descargado", 0) > 5 * 86400:
+            try:
+                nuevo = descargar_serie(codigo)
+                nuevo["_descargado"] = time.time()
+                payload = nuevo
+                cache.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
+            except Exception:
+                pass  # el INE no contesta: se sigue con la copia anterior
+    if payload is None:
         payload = descargar_serie(codigo)
+        payload["_descargado"] = time.time()
         cache.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
 
     serie, incidencias = a_serie_mensual(payload)

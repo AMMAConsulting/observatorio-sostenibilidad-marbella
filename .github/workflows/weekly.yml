@@ -22,6 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       hubo_cambio: ${{ steps.publicar.outputs.hubo_cambio }}
+      artefacto: ${{ steps.artefacto.outcome }}
     steps:
       - uses: actions/checkout@v4
 
@@ -59,7 +60,12 @@ jobs:
       - name: Instalar dependencias
         run: pip install -r pipeline/requirements.txt
 
+      # Una fuente caida (p. ej. la clave de AEMET caducada, 16-11-2026) no debe impedir
+      # publicar las demas: antes el paso fallaba, se saltaba la publicacion y se perdian
+      # los datos nuevos de todas las fuentes. El fallo se marca al final del job.
       - name: Ejecutar pipeline
+        id: pipeline
+        continue-on-error: true
         env:
           CDSE_CLIENT_ID: ${{ secrets.CDSE_CLIENT_ID }}
           CDSE_CLIENT_SECRET: ${{ secrets.CDSE_CLIENT_SECRET }}
@@ -95,8 +101,15 @@ jobs:
       # última comprobación queda actualizada sin ensuciar el historial del repositorio.
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
+        id: artefacto
         with:
           path: web
+
+      - name: Marcar el fallo de alguna fuente
+        if: steps.pipeline.outcome == 'failure'
+        run: |
+          echo "::error::Alguna fuente ha fallado: se ha publicado lo demas. Ver el registro de 'Ejecutar pipeline'."
+          exit 1
 
       - name: Abrir incidencia si el pipeline falla
         if: failure()
@@ -122,6 +135,7 @@ jobs:
 
   desplegar:
     needs: actualizar
+    if: ${{ !cancelled() && needs.actualizar.outputs.artefacto == 'success' }}
     runs-on: ubuntu-latest
     environment:
       name: github-pages

@@ -75,12 +75,15 @@ def actualizar_trimestre_en_curso(cfg: dict) -> dict:
     if not ruta.exists():
         return componer_desde_cache(cfg)
 
+    # Se piden los ultimos 4 meses y no solo el trimestre en curso: al cambiar de
+    # trimestre el ultimo mes del anterior (p. ej. septiembre) quedaba sin traer y la
+    # serie se paraba en agosto (25-11-2026).
     hoy = date.today()
-    trimestre = (hoy.month - 1) // 3
-    mes_ini = trimestre * 3 + 1
-    desde = f"{hoy.year}-{mes_ini:02d}-01"
-    fa, fm = (hoy.year, mes_ini + 3) if mes_ini + 3 <= 12 else (hoy.year + 1, 1)
-    hasta = min(f"{fa}-{fm:02d}-01", hoy.isoformat())
+    a0, m0 = hoy.year, hoy.month - 4
+    if m0 < 1:
+        a0, m0 = a0 - 1, m0 + 12
+    desde = f"{a0}-{m0:02d}-01"
+    hasta = hoy.isoformat()
 
     if hasta > desde:
         g = gpd.read_file(ruta)
@@ -90,13 +93,27 @@ def actualizar_trimestre_en_curso(cfg: dict) -> dict:
         try:
             datos = oeo.ejecutar(_grafo(json.loads(simple.to_json()), simple.total_bounds,
                                         desde, hasta), reintentos=2)
-            oeo.cachear(f"chl_{hoy.year}T{trimestre + 1}", datos)
+            oeo.cachear("chl_reciente", datos)
         except Exception:
             # Si el trimestre en curso no se puede traer, se publica lo que ya hay:
             # el indicador nunca queda peor que antes
             pass
 
-    return _empaquetar(cfg, _componer(_lee_cache_completa()), [])
+    # Se parte de la serie ya publicada: la cache de Actions puede perderse (caduca a los
+    # 7 dias sin uso) y entonces solo quedaban los meses recien traidos, el control de
+    # "no empobrecer" rechazaba el resultado y la serie se quedaba congelada.
+    return _empaquetar(cfg, _componer(_lee_cache_completa(), _serie_publicada()), [])
+
+
+def _serie_publicada() -> dict[str, float]:
+    ruta = DIR_PROCESSED / "clorofila_litoral.json"
+    if not ruta.exists():
+        return {}
+    try:
+        serie = json.loads(ruta.read_text(encoding="utf-8")).get("serie") or []
+    except Exception:
+        return {}
+    return {r["periodo"]: r["valor"] for r in serie if r.get("valor") is not None}
 
 
 def construir_serie(cfg: dict, forzar: bool = False) -> dict:
@@ -168,8 +185,8 @@ def _empaquetar(cfg: dict, serie: list[dict], tramos_leidos: list) -> dict:
     }
 
 
-def _componer(intervalos: list[dict]) -> list[dict]:
-    valores: dict[str, float] = {}
+def _componer(intervalos: list[dict], base: dict[str, float] | None = None) -> list[dict]:
+    valores: dict[str, float] = dict(base or {})
     for bloque in intervalos:
         for k, v in bloque.items():
             periodo = k[:7]
